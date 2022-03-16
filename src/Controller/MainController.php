@@ -5,27 +5,38 @@ namespace App\Controller;
 use App\Entity\Book;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
     /**
-     * @Route("/main", name="app_main")
+     * @Route("/ajouter-livre", name="app_main")
      */
-    public function index(EntityManagerInterface $em): Response
+    public function index(EntityManagerInterface $em, Request $request): Response
     {
-        // obtenir Manager interface
-        // $em = $this->getDoctrine()->getManager();
-        // creation de l'objet 
-        // $book = new Book();
-        // $book->setTitle("The wolf of wall street")
-        //      ->setAuthor("YYYY")
-        //      ->setPages("231")
-        //      ->setDatePublished(new \DateTime('NOW')); 
-        // ajout dans bdd     
-        // $em->persist($book);
-        // $em->flush();
+        if($request->getMethod()=="POST"){
+            
+            $title = $request->request->get("title");
+            $author = $request->request->get("author");
+            $pages = $request->request->get("pages");
+            $date = $request->request->get("date");
+        
+
+            // obtenir Manager interface
+            // $em = $this->getDoctrine()->getManager();
+            // creation de l'objet 
+            $book = new Book();
+            $book->setTitle($title)
+                 ->setAuthor($author)
+                 ->setPages($pages)
+                 ->setDatePublished(new \DateTime($date)); 
+            // ajout dans bdd     
+            $em->persist($book);
+            $em->flush();
+        }
+
         return $this->render("main/index.html.twig");
     }
 }
