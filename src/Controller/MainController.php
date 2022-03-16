@@ -45,11 +45,15 @@ class MainController extends AbstractController
     /**
      * @Route("/liste-livres", name="app_list_book")
      */
-    public function bookList(BookRepository $bookRepo ):Response
-    {   // BookRepository $bookRepo 
-        //$bookRepo = $this->getDoctrine()->getRepository(Book::class);
-        //$bookRepo = $em->getRepository(Book::class);
-        $books = $bookRepo->findAll();
+    public function bookList(BookRepository $bookRepo,Request $request):Response
+    {   
+        $books = array();
+
+        if( !empty($request->query->get("s"))  ){
+            $books = $bookRepo->findBookByTitleQueryBuilder($request->query->get("s"));
+        }else{
+            $books = $bookRepo->findAll();
+        }
         return $this->render("main/book-list.html.twig",compact("books"));
     }
 
