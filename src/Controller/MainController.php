@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Repository\BookRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,4 +41,17 @@ class MainController extends AbstractController
 
         return $this->render("main/index.html.twig");
     }
+
+    /**
+     * @Route("/liste-livres", name="app_list_book")
+     */
+    public function bookList(BookRepository $bookRepo ):Response
+    {   // BookRepository $bookRepo 
+        //$bookRepo = $this->getDoctrine()->getRepository(Book::class);
+        //$bookRepo = $em->getRepository(Book::class);
+        $books = $bookRepo->findAll();
+        return $this->render("main/book-list.html.twig",compact("books"));
+    }
+
+
 }
