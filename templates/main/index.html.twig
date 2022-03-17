@@ -3,12 +3,13 @@
 {% block title %}Ajouter un livre{% endblock %}
 
 {% block body %}
+
+
     <div class="row text-center mt-4">
         <h2>Ajout un livre</h2>
     </div>
     <div class="row">
         {{ form_start(formBook) }}
-
 
         <div style="background-color:red;">
             {{form_label(formBook.title)}}
@@ -16,10 +17,17 @@
             {{form_errors(formBook.title)}}
         </div>  
 
-        <div  style="background-color:blue;">
-            <label for="{{ field_name(formBook.author) }}">Auteur d livre</label>
-            <input type="text" id="{{ field_name(formBook.author) }}" name="{{ field_name(formBook.author) }}" >
-        </div>
+        <div style="background-color:red;">
+            {{form_label(formBook.author)}}
+            {{form_widget(formBook.author)}}
+            {{form_errors(formBook.author)}}
+        </div>  
+
+        <div style="background-color:red;">
+            {{form_label(formBook.pages)}}
+            {{form_widget(formBook.pages)}}
+            {{form_errors(formBook.pages)}}
+        </div>          
 
 
 

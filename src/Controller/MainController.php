@@ -21,22 +21,29 @@ class MainController extends AbstractController
     {
         // creation de l'objet 
         $book = new Book();
+        // creation formulaire
         $formBook = $this->createForm(BookType::class,$book);
+        // ajout de données
         $formBook->handleRequest($request);
-        // dump($request->request);
-        // dd($book);
-        if($formBook->isSubmitted()){
-            // obtenir Manager interface
-            // $em = $this->getDoctrine()->getManager();                        
-            // ajout dans bdd     
+
+        if($formBook->isSubmitted() ){  
             $em->persist($book);
             $em->flush();
+            $this->addFlash("success","Livre créé");
+            return $this->redirectToRoute('app_resultat');
         }
-
         return $this->render("main/index.html.twig",[
             'formBook'=>$formBook->createView()
         ]);
     }
+
+    /**
+     * @Route("/resultat", name="app_resultat")
+     */
+    public function res(BookRepository $bookRepo,Request $request):Response
+    {   
+        return $this->render("main/resultat.html.twig");
+    }    
 
     /**
      * @Route("/liste-livres", name="app_list_book")
