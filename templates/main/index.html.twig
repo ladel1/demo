@@ -7,25 +7,6 @@
         <h2>Ajout un livre</h2>
     </div>
     <div class="row">
-        <form action="/ajouter-livre" method="post" >
-            <div class="mb-3">
-                <label for="title" class="form-label">Titre:</label>
-                <input type="text" class="form-control" name="title" id="title" placeholder="ex. The wolf of wall street">
-            </div>
-            <div class="mb-3">
-                <label for="author" class="form-label">Auteur:</label>
-                <input type="text" class="form-control" name="author" id="author" placeholder="ex. Adel">
-            </div>
-            <div class="mb-3">
-                <label for="pages" class="form-label">Nombre de pages:</label>
-                <input type="number" class="form-control" name="pages" id="pages" placeholder="ex. 200">
-            </div>
-            <div class="mb-3">
-                <label for="date" class="form-label">Date de publication:</label>
-                <input type="date" class="form-control" name="date" id="date" placeholder="ex. 2008">
-            </div>
-            <button type="submit" class="btn btn-outline-primary">Ajouter</button>                                  
-     
-        </form>
+        {{ form(formBook) }}
     </div>
 {% endblock %}

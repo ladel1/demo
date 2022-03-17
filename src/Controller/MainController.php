@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Form\BookType;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,28 +19,27 @@ class MainController extends AbstractController
      */
     public function index(EntityManagerInterface $em, Request $request): Response
     {
-        if($request->getMethod()=="POST"){
-            
-            $title = $request->request->get("title");
-            $author = $request->request->get("author");
-            $pages = $request->request->get("pages");
-            $date = $request->request->get("date");
-        
 
-            // obtenir Manager interface
-            // $em = $this->getDoctrine()->getManager();
-            // creation de l'objet 
-            $book = new Book();
-            $book->setTitle($title)
-                 ->setAuthor($author)
-                 ->setPages($pages)
-                 ->setDatePublished(new \DateTime($date)); 
-            // ajout dans bdd     
-            $em->persist($book);
-            $em->flush();
-        }
+        $book = new Book();
+        $formBook = $this->createForm(BookType::class,$book);
 
-        return $this->render("main/index.html.twig");
+        // if(){
+        //     // obtenir Manager interface
+        //     // $em = $this->getDoctrine()->getManager();
+        //     // creation de l'objet 
+        //     $book = new Book();
+        //     $book->setTitle($title)
+        //          ->setAuthor($author)
+        //          ->setPages($pages)
+        //          ->setDatePublished(new \DateTime($date)); 
+        //     // ajout dans bdd     
+        //     $em->persist($book);
+        //     $em->flush();
+        // }
+
+        return $this->render("main/index.html.twig",[
+            'formBook'=>$formBook->createView()
+        ]);
     }
 
     /**
