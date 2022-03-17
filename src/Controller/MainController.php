@@ -19,23 +19,19 @@ class MainController extends AbstractController
      */
     public function index(EntityManagerInterface $em, Request $request): Response
     {
-
+        // creation de l'objet 
         $book = new Book();
         $formBook = $this->createForm(BookType::class,$book);
-
-        // if(){
-        //     // obtenir Manager interface
-        //     // $em = $this->getDoctrine()->getManager();
-        //     // creation de l'objet 
-        //     $book = new Book();
-        //     $book->setTitle($title)
-        //          ->setAuthor($author)
-        //          ->setPages($pages)
-        //          ->setDatePublished(new \DateTime($date)); 
-        //     // ajout dans bdd     
-        //     $em->persist($book);
-        //     $em->flush();
-        // }
+        $formBook->handleRequest($request);
+        // dump($request->request);
+        // dd($book);
+        if($formBook->isSubmitted()){
+            // obtenir Manager interface
+            // $em = $this->getDoctrine()->getManager();                        
+            // ajout dans bdd     
+            $em->persist($book);
+            $em->flush();
+        }
 
         return $this->render("main/index.html.twig",[
             'formBook'=>$formBook->createView()
