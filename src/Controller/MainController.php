@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\Produit;
 use App\Form\BookType;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManager;
@@ -25,8 +26,7 @@ class MainController extends AbstractController
         $formBook = $this->createForm(BookType::class,$book);
         // ajout de données
         $formBook->handleRequest($request);
-
-        if($formBook->isSubmitted() ){  
+        if($formBook->isSubmitted() && $formBook->isValid() ){ 
             $em->persist($book);
             $em->flush();
             $this->addFlash("success","Livre créé");

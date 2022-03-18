@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\BookRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
@@ -20,11 +21,13 @@ class Book
     private $id;
 
     /**
+     * 
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Assert\NotBlank(message="Le champs Auteur ne peut pas etre vide :p ")
      * @ORM\Column(type="string", length=255)
      */
     private $author;
