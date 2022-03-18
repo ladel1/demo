@@ -30,7 +30,8 @@ class BookType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Book::class
+            'data_class' => Book::class,
+            'csrf_message'=>"Le jeton CSRF n'est pas Valide!"
         ]);
     }
 }

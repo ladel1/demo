@@ -11,30 +11,32 @@
     <div class="row">
         {{ form_start(formBook) }}
 
-        <div style="background-color:red;">
+        <div >
             {{form_label(formBook.title)}}
             {{form_widget(formBook.title)}}
             {{form_errors(formBook.title)}}
         </div>  
 
-        <div style="background-color:red;">
+        <div >
             {{form_label(formBook.author)}}
             {{form_widget(formBook.author)}}
             {{form_errors(formBook.author)}}
         </div>  
 
-        <div style="background-color:red;">
+        <div >
             {{form_label(formBook.pages)}}
             {{form_widget(formBook.pages)}}
             {{form_errors(formBook.pages)}}
         </div>          
-
-
-
-      
-        
-        <input type="hidden" name="token" value="{{ csrf_token('ajouter-livre') }}"/>
-
         {{ form_end(formBook) }}
+        
+        {% for error in formBook.vars.errors.form.getErrors(true) %}
+            <div class="alert alert-danger">
+                {{  error.message }}
+            </div>
+        {% endfor %}
+
+        
+
     </div>
 {% endblock %}
