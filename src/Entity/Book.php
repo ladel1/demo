@@ -45,7 +45,7 @@ class Book
     private $datePublished;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="book", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="book", fetch="EAGER" , orphanRemoval=true)
      */
     private $comments;
 

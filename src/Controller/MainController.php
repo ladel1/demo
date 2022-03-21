@@ -7,6 +7,7 @@ use App\Entity\Comment;
 use App\Entity\Produit;
 use App\Form\BookType;
 use App\Form\CommentType;
+use App\Form\DeleteBookType;
 use App\Repository\BookRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManager;
@@ -55,13 +56,17 @@ class MainController extends AbstractController
     public function bookList(BookRepository $bookRepo,Request $request):Response
     {   
         $books = array();
-
+        $book = new Book();
+        $deleteBookForm = $this->createForm(DeleteBookType::class,$book); 
         if( !empty($request->query->get("s"))  ){
             $books = $bookRepo->findBookByTitleQueryBuilder($request->query->get("s"));
         }else{
             $books = $bookRepo->findAll();
         }
-        return $this->render("main/book-list.html.twig",compact("books"));
+        return $this->render("main/book-list.html.twig",[
+            "books"=>$books,
+            "deleteBookForm"=>$deleteBookForm->createView()
+        ]);
     }
 
 
@@ -85,6 +90,23 @@ class MainController extends AbstractController
         return $this->render("main/detail.html.twig",["book"=>$book,
         "commentForm"=>$commentForm->createView()]);
     }
+
+    /**
+     * @Route("/supp", name="app_supp_book")
+     */
+    public function removeBook(BookRepository $bookRepo,Request $request):Response
+    { 
+        $submittedToken = $request->request->get("token");
+
+        if($this->isCsrfTokenValid('delete-item', $submittedToken)){
+            $book = $bookRepo->find($request->request->get("id"));
+            $bookRepo->remove($book);
+        }
+
+        return $this->json($this->isCsrfTokenValid('delete-item', $submittedToken));
+
+    }
+
 
 
 }
