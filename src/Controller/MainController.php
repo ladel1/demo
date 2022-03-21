@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\Comment;
 use App\Entity\Produit;
 use App\Form\BookType;
+use App\Form\CommentType;
 use App\Repository\BookRepository;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -59,6 +62,28 @@ class MainController extends AbstractController
             $books = $bookRepo->findAll();
         }
         return $this->render("main/book-list.html.twig",compact("books"));
+    }
+
+
+    /**
+     * @Route("/detail/{id}", name="app_detail_book")
+     */
+    public function detail(BookRepository $bookRepo,CommentRepository $commentRepo,Request $request,$id):Response
+    {   // recup livre
+        $book = $bookRepo->find($id);
+        // creation objet comment
+        $comment = new Comment();
+        // création formulaire
+        $commentForm = $this->createForm(CommentType::class,$comment);
+        $commentForm->handleRequest($request);
+        if($commentForm->isSubmitted()){
+            $comment->setBook($book);
+            $comment->setDateCreated(new \DateTime("now"));
+            $commentRepo->add($comment);
+        }
+
+        return $this->render("main/detail.html.twig",["book"=>$book,
+        "commentForm"=>$commentForm->createView()]);
     }
 
 
