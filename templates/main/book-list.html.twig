@@ -15,7 +15,7 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Titre</th>
-            <th scope="col">Auteur</th>
+            <th scope="col">Auteur(s)</th>
             <th scope="col">Pages</th>
             <th scope="col">Date</th>
             <th scope="col">Actions</th>
@@ -28,7 +28,12 @@
             <tr>
                 <th scope="row">{{book.id}}</th>
                 <td><a href="{{path("app_detail_book",{id:book.id})}}">{{book.title}}</a> </td>
-                <td>{{book.author}}</td>
+                <td>
+                    {% for author in book.authors %} 
+                    <span> {{ author.firstname }} {{ author.lastname }} </span><br>
+                    {% endfor %}               
+                
+                </td>
                 <td>{{book.pages}}</td>
                 <td>{{book.datePublished|date("d-m-Y")}}</td>
                 <td>
@@ -65,7 +70,7 @@
             
             if(confirm("Do you want to delete the book with id: " +book_id)){
                 // Http request
-
+                // Ajax
                 $.post( "/supp",{id:book_id,token:csrf_token}, function( data ) {
                     console.log(data);
                     if(data==true){

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ author.firstname}} {% endblock %}
+
+{% block body %}
+    <div class="row text-center mt-4">
+        <h2>Ajout un auteur</h2>
+    </div>
+    <div class="row">
+        <h3>{{ author.firstname}} {{ author.lastname}}<h3>
+    </div>
+{% endblock %}

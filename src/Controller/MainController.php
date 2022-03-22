@@ -32,6 +32,9 @@ class MainController extends AbstractController
         // ajout de données
         $formBook->handleRequest($request);
         if($formBook->isSubmitted() && $formBook->isValid() ){ 
+            // foreach( $book->getAuthors() as $val ){
+            //     $val->addBook($book);
+            // }
             $em->persist($book);
             $em->flush();
             $this->addFlash("success","Livre créé");

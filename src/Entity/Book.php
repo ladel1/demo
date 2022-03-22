@@ -29,12 +29,6 @@ class Book
     private $title;
 
     /**
-     * @Assert\NotBlank(message="Le champs Auteur ne peut pas etre vide :p ")
-     * @ORM\Column(type="string", length=255)
-     */
-    private $author;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $pages;
@@ -54,9 +48,15 @@ class Book
      */
     private $resume;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Author::class, inversedBy="books")
+     */
+    private $authors;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->authors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,17 +76,6 @@ class Book
         return $this;
     }
 
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(string $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
 
     public function getPages(): ?int
     {
@@ -150,6 +139,30 @@ class Book
     public function setResume(?string $resume): self
     {
         $this->resume = $resume;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Author>
+     */
+    public function getAuthors(): Collection
+    {
+        return $this->authors;
+    }
+
+    public function addAuthor(Author $author): self
+    {
+        if (!$this->authors->contains($author)) {
+            $this->authors[] = $author;
+        }
+
+        return $this;
+    }
+
+    public function removeAuthor(Author $author): self
+    {
+        $this->authors->removeElement($author);
 
         return $this;
     }

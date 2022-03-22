@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste Auteurs{% endblock %}
+
+{% block body %}
+    <div class="row text-center mt-4">
+        <h2>Liste auteurs</h2>
+    </div>
+    <div class="row">
+       {% for author in authors %}
+        <p> {{author.firstname}} {{author.lastname}} </p>
+       {% endfor %}
+    </div>
+
+{% endblock %}
